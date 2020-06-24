@@ -1,0 +1,48 @@
+// Digital pin 4-output for motor
+//Digital pin 5-ready LED
+//Digital pin 6-wait LED
+//use an 10k resistor as pulldown in output to avoid auto-triggering while bootup or starting
+
+#define trigPin  2
+#define echoPin  3
+long duration;
+float distance;
+
+void setup() {
+pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+pinMode(4, OUTPUT);
+pinMode(5, OUTPUT);
+pinMode(6, OUTPUT);
+Serial.begin(9600);
+
+
+}
+
+void loop() {
+
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distance=((duration*0.034)/2);
+Serial.println(distance);
+if (distance <=9){
+  digitalWrite(4,HIGH);
+  digitalWrite(5,LOW);
+  digitalWrite(6,LOW);
+  delay(1000);
+ digitalWrite(4,LOW);
+ digitalWrite(6,HIGH);
+  delay(3000);
+
+}
+else{
+
+    digitalWrite(4,LOW);
+   digitalWrite(5,HIGH);
+   digitalWrite(6,LOW);
+}
+}
