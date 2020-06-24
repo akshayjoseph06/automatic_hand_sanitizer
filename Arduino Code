@@ -1,6 +1,8 @@
 // Digital pin 4-output for motor
 //Digital pin 5-ready LED
 //Digital pin 6-wait LED
+//Digital pin 2 trig of HC SR-04
+//Digital pin 3 echo of HC SR-04
 //use an 10k resistor as pulldown in output to avoid auto-triggering while bootup or starting
 
 #define trigPin  2
