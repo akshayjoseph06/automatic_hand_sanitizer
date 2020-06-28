@@ -1,0 +1,50 @@
+// Digital pin D4-output for motor
+//Digital pin D0-ready LED
+//Digital pin D1-wait LED
+//Digital pin D2 trig of HC SR-04
+//Digital pin D3 echo of HC SR-04
+//use an 10k resistor as pulldown in output to avoid auto-triggering while bootup or starting
+
+#define trigPin  D2
+#define echoPin  D3
+long duration;
+float distance;
+
+void setup() {
+pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+pinMode(D4, OUTPUT);
+pinMode(D0, OUTPUT);
+pinMode(D1, OUTPUT);
+Serial.begin(9600);
+
+
+}
+
+void loop() {
+
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distance=((duration*0.034)/2);
+Serial.println(distance);
+if (distance <=9){
+  digitalWrite(D4,HIGH);
+  digitalWrite(D0,LOW);
+  digitalWrite(D1,LOW);
+  delay(1000);
+ digitalWrite(D4,LOW);
+ digitalWrite(D1,HIGH);
+  delay(3000);
+
+}
+else{
+
+    digitalWrite(D4,LOW);
+   digitalWrite(D0,HIGH);
+   digitalWrite(D1,LOW);
+}
+}
