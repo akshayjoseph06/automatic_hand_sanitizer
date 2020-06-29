@@ -1,0 +1,60 @@
+// Digital pin 4-output for motor
+//Digital pin 5-ready LED
+//Digital pin 6-wait LED
+//POT 1 - A0 defined as akshay - pumping delay
+//POT 2 - A1 defined as joseph- waiting delay
+//Digital pin 2 trig of HC SR-04
+//Digital pin 3 echo of HC SR-04
+//use an 10k resistor as pulldown in output to avoid auto-triggering while bootup or starting
+
+#define trigPin  2
+#define echoPin  3
+#define pump 4 
+#define ready_led 5
+#define wait_led 6
+long duration;
+long akshay ,joseph;
+float distance;
+
+void setup() {
+pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+pinMode(pump, OUTPUT);
+pinMode(ready_led, OUTPUT);
+pinMode(wait_led, OUTPUT);
+pinMode(A0,INPUT);
+pinMode(A1,INPUT);
+Serial.begin(9600);
+
+
+}
+
+void loop() {
+  
+akshay=map(analogRead(A0),0,1024,1000,10000);
+joseph=map(analogRead(A1),0,1024,1000,10000);
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distance=((duration*0.034)/2);
+Serial.println(distance);
+if (distance <=9){
+  digitalWrite(pump,HIGH);
+  digitalWrite(ready_led,LOW);
+  digitalWrite(wait_led,LOW);
+  delay(akshay);
+ digitalWrite(pump,LOW);
+ digitalWrite(wait_led,HIGH);
+  delay(joseph);
+
+}
+else{
+
+    digitalWrite(pump,LOW);
+   digitalWrite(ready_led,HIGH);
+   digitalWrite(wait_led,LOW);
+}
+}
